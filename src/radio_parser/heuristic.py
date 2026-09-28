@@ -103,6 +103,59 @@ def extract_kilometer(text: str) -> float | None:
             cutoff = min(cutoff, idx)
     preferred = [item for item in candidates if item[0] < cutoff]
     return (preferred or candidates)[0][1]
+
+
+def extract_span_km(text: str) -> float | None:
+    match = SPAN_RE.search(text)
+    if not match:
+        return None
+    raw = match.group(1)
+    try:
+        return float(raw)
+    except ValueError:
+        return chinese_number_to_float(raw)
+
+
+def extract_km_range(text: str) -> tuple[float | None, float | None]:
+    match = KM_RANGE_RE.search(text)
+    if not match:
+        return None, None
+    start, end = float(match.group(1)), float(match.group(2))
+    if start > end:
+        start, end = end, start
+    return start, end
+
+
+def extract_segment_landmarks(text: str) -> tuple[str | None, str | None]:
+    match = SEGMENT_RE.search(text)
+    if not match:
+        return None, None
+    return _clean_place(match.group(1)), _clean_place(match.group(2))
+
+
+def _clean_place(name: str | None) -> str | None:
+    if not name:
+        return None
+    for prefix in ("南下", "北上", "東向", "西向", "往南", "往北", "往東", "往西", "往"):
+        if name.startswith(prefix):
+            name = name[len(prefix) :]
+    for suffix in ("路段", "方向", "附近"):
+        if name.endswith(suffix):
+            name = name[: -len(suffix)]
+    name = name.strip()
+    return name or None
+
+
+SPAN_RE = re.compile(
+    r"(?:回堵|後方(?:回堵)?|車多)\s*(?:大約|約)?\s*"
+    r"(\d+(?:\.\d+)?|[零一二三四五六七八九十百兩]+(?:點[零一二三四五六七八九]+)?)\s*(?:k|K|公里)"
+)
+KM_RANGE_RE = re.compile(
+    r"(\d+(?:\.\d+)?)\s*(?:k|K|公里)\s*(?:到|至|~|-|－)\s*(\d+(?:\.\d+)?)\s*(?:k|K|公里)?"
+)
+SEGMENT_RE = re.compile(
+    r"([^\s，。、號線0-9]{2,4}(?:交流道|系統)?)\s*(?:到|至|往)\s*([^\s，。、號線0-9]{2,4}(?:交流道|系統)?)"
+)
 DIR_RE = re.compile(r"(南下|北上|東向|西向|往南|往北|往東|往西)")
 CITY_RE = re.compile(
     r"(基隆|台北|臺北|新北|桃園|新竹|苗栗|台中|臺中|彰化|南投|雲林|嘉義|"
@@ -111,7 +164,9 @@ CITY_RE = re.compile(
 LANDMARK_RE = re.compile(
     r"(圓山|五股|林口|中壢|內壢|楊梅|頭份|中港|員林|斗南|新營|岡山|鼎金|五甲|"
     r"木柵|深坑|新店|安坑|土城|中和|板橋|汐止|南港|忠孝橋|中興橋|華江橋|"
-    r"[^\s，。、]{2,6}交流道)"
+    r"台北交流道|臺北交流道|桃園交流道|新竹交流道|苗栗交流道|台中交流道|"
+    r"彰化交流道|嘉義交流道|台南交流道|高雄交流道|"
+    r"[^\s，。、0-9.點kK公里]{2,6}交流道)"
 )
 
 SENTENCE_SPLIT = re.compile(r"[。！？\n；]+")
@@ -146,10 +201,15 @@ def extract_mentions(transcript: str) -> list[ExtractedMention]:
         if itype == IncidentType.OTHER and not ROAD_RE.search(text):
             continue
         road_m = ROAD_RE.search(text)
-        kilometer = extract_kilometer(text)
+        km_start, km_end = extract_km_range(text)
+        kilometer = km_start if km_start is not None else extract_kilometer(text)
+        span_km = extract_span_km(text)
+        landmark, landmark_end = extract_segment_landmarks(text)
         dir_m = DIR_RE.search(text)
         city_m = CITY_RE.search(text)
         landmark_m = LANDMARK_RE.search(text)
+        if not landmark and landmark_m:
+            landmark = landmark_m.group(0)
         location_parts = [
             part
             for part in (
@@ -157,11 +217,20 @@ def extract_mentions(transcript: str) -> list[ExtractedMention]:
                 road_m.group(0) if road_m else None,
                 dir_m.group(0) if dir_m else None,
                 f"{kilometer:g}k" if kilometer is not None else None,
-                landmark_m.group(0) if landmark_m else None,
+                f"至{km_end:g}k" if km_end is not None else None,
+                landmark,
+                landmark_end,
             )
             if part
         ]
-        location_text = " ".join(location_parts) or text[:40]
+        # Avoid 「台北 台北交流道」 duplication.
+        deduped: list[str] = []
+        for part in location_parts:
+            if any(part != other and part in other for other in location_parts):
+                continue
+            if part not in deduped:
+                deduped.append(part)
+        location_text = " ".join(deduped) or text[:40]
         key = (itype.value, location_text)
         if key in seen:
             continue
@@ -174,8 +243,11 @@ def extract_mentions(transcript: str) -> list[ExtractedMention]:
                 direction=dir_m.group(0) if dir_m else None,
                 road=road_m.group(0) if road_m else None,
                 kilometer=kilometer,
+                kilometer_end=km_end,
+                span_km=span_km,
                 city=city_m.group(0) if city_m else None,
-                landmark=landmark_m.group(0) if landmark_m else None,
+                landmark=landmark,
+                landmark_end=landmark_end,
                 severity=severity,
                 confidence=0.55 if itype != IncidentType.OTHER else 0.35,
                 raw_span=text,

@@ -1,114 +1,183 @@
 {
-  "source": "police_radio",
-  "parser": "heuristic",
-  "generated_at": "2026-09-28T03:09:22.883447+00:00",
-  "transcript_path": "/workspace/samples/transcripts/sample_police_radio.txt",
+  "source": "pbs_opendata",
+  "parser": "pbs+heuristic",
+  "generated_at": "2026-09-28T03:27:02.853424+00:00",
+  "transcript_path": null,
+  "pbs_url": "/workspace/samples/pbs/opendata_sample.json",
   "incidents": [
     {
-      "id": "0edfea5b2030",
+      "id": "N20260928001",
       "type": "accident",
-      "title": "交通事故｜台北 國道一號 南下 25.3k 台北交流道",
-      "summary": "國道一號南下二十五點三公里，台北交流道附近，兩輛小客車追撞，內線車道占用，後方回堵大約三公里",
+      "title": "交通事故｜國道1號 南下 25.3k 台北交流道",
+      "summary": "國道1號南下25.3公里台北交流道附近兩輛小客車追撞，內線車道占用，後方回堵約三公里",
       "severity": "medium",
-      "location_text": "台北 國道一號 南下 25.3k 台北交流道",
+      "location_text": "國道1號 南下 25.3k 台北交流道",
       "bbox": {
-        "min_lat": 25.06823,
+        "min_lat": 25.068,
         "min_lng": 121.51493,
         "max_lat": 25.08423,
-        "max_lng": 121.53093
+        "max_lng": 121.560954
       },
+      "original_bbox": {
+        "min_lat": 25.068,
+        "min_lng": 121.54,
+        "max_lat": 25.084,
+        "max_lng": 121.556
+      },
+      "bbox_source": "comment_span",
       "center": {
-        "lat": 25.07623,
-        "lng": 121.52293
+        "lat": 25.076115,
+        "lng": 121.537942
       },
       "road": "國道1號",
       "direction": "南下",
       "kilometer": 25.3,
+      "kilometer_end": null,
+      "span_km": 3.0,
       "city": "台北",
       "confidence": 0.55,
-      "raw_text": "國道一號南下二十五點三公里，台北交流道附近，兩輛小客車追撞，內線車道占用，後方回堵大約三公里",
-      "source": "police_radio"
+      "raw_text": "國道1號南下25.3公里台北交流道附近兩輛小客車追撞，內線車道占用，後方回堵約三公里",
+      "source": "pbs_opendata",
+      "uid": "N20260928001",
+      "region": "N",
+      "area_nm": "國道一號",
+      "roadtype": "事故",
+      "api_center": {
+        "lat": 25.076,
+        "lng": 121.548
+      }
     },
     {
-      "id": "d6461dcac602",
+      "id": "N20260928002",
       "type": "congestion",
-      "title": "塞車/回堵｜國道三號 北上 木柵",
+      "title": "塞車/回堵｜國道三號 北上 木柵 新店",
       "summary": "國道三號北上木柵到新店路段，車多行駛緩慢",
       "severity": "low",
-      "location_text": "國道三號 北上 木柵",
+      "location_text": "國道三號 北上 木柵 新店",
       "bbox": {
-        "min_lat": 24.98,
-        "min_lng": 121.568,
+        "min_lat": 24.959,
+        "min_lng": 121.533,
         "max_lat": 24.996,
         "max_lng": 121.584
       },
+      "original_bbox": {
+        "min_lat": 24.959,
+        "min_lng": 121.533,
+        "max_lat": 24.975,
+        "max_lng": 121.549
+      },
+      "bbox_source": "hybrid",
       "center": {
-        "lat": 24.988,
-        "lng": 121.576
+        "lat": 24.9775,
+        "lng": 121.5585
       },
       "road": "國道3號",
       "direction": "北上",
       "kilometer": null,
+      "kilometer_end": null,
+      "span_km": null,
       "city": null,
       "confidence": 0.55,
       "raw_text": "國道三號北上木柵到新店路段，車多行駛緩慢",
-      "source": "police_radio"
+      "source": "pbs_opendata",
+      "uid": "N20260928002",
+      "region": "N",
+      "area_nm": "國道三號",
+      "roadtype": "壅塞",
+      "api_center": {
+        "lat": 24.967,
+        "lng": 121.541
+      }
     },
     {
-      "id": "7329d237db33",
+      "id": "N20260928003",
       "type": "breakdown",
-      "title": "車輛拋錨｜台64線 西向 五股",
+      "title": "車輛拋錨｜台64線 西向 五股 林口",
       "summary": "台64線西向五股往林口方向，大貨車拋錨占用路肩",
       "severity": "medium",
-      "location_text": "台64線 西向 五股",
+      "location_text": "台64線 西向 五股 林口",
       "bbox": {
+        "min_lat": 25.069,
+        "min_lng": 121.369,
+        "max_lat": 25.0855,
+        "max_lng": 121.447
+      },
+      "original_bbox": {
         "min_lat": 25.069,
         "min_lng": 121.431,
         "max_lat": 25.085,
         "max_lng": 121.447
       },
+      "bbox_source": "hybrid",
       "center": {
-        "lat": 25.077,
-        "lng": 121.439
+        "lat": 25.07725,
+        "lng": 121.408
       },
       "road": "台64線",
       "direction": "西向",
       "kilometer": null,
+      "kilometer_end": null,
+      "span_km": null,
       "city": null,
       "confidence": 0.55,
       "raw_text": "台64線西向五股往林口方向，大貨車拋錨占用路肩",
-      "source": "police_radio"
+      "source": "pbs_opendata",
+      "uid": "N20260928003",
+      "region": "N",
+      "area_nm": "台64線",
+      "roadtype": "障礙",
+      "api_center": {
+        "lat": 25.077,
+        "lng": 121.439
+      }
     },
     {
-      "id": "284a474deced",
+      "id": "S20260928004",
       "type": "construction",
       "title": "施工｜高雄 南下 鼎金",
-      "summary": "高雄鼎金系統南下匝道，施工封閉，請改走平面道路",
+      "summary": "高雄鼎金系統南下匝道施工封閉，請改走平面道路",
       "severity": "high",
       "location_text": "高雄 南下 鼎金",
       "bbox": {
-        "min_lat": 22.648,
-        "min_lng": 120.315,
+        "min_lat": 22.6193,
+        "min_lng": 120.2934,
         "max_lat": 22.664,
         "max_lng": 120.331
       },
-      "center": {
-        "lat": 22.656,
-        "lng": 120.323
+      "original_bbox": {
+        "min_lat": 22.6193,
+        "min_lng": 120.2934,
+        "max_lat": 22.6353,
+        "max_lng": 120.3094
       },
-      "road": null,
+      "bbox_source": "hybrid",
+      "center": {
+        "lat": 22.64165,
+        "lng": 120.3122
+      },
+      "road": "國道1號",
       "direction": "南下",
       "kilometer": null,
+      "kilometer_end": null,
+      "span_km": null,
       "city": "高雄",
       "confidence": 0.55,
-      "raw_text": "高雄鼎金系統南下匝道，施工封閉，請改走平面道路",
-      "source": "police_radio"
+      "raw_text": "高雄鼎金系統南下匝道施工封閉，請改走平面道路",
+      "source": "pbs_opendata",
+      "uid": "S20260928004",
+      "region": "S",
+      "area_nm": "高雄市",
+      "roadtype": "施工",
+      "api_center": {
+        "lat": 22.6273,
+        "lng": 120.3014
+      }
     },
     {
-      "id": "cfdd41e05722",
+      "id": "E20260928005",
       "type": "weather",
       "title": "天候路況｜宜蘭 台9線 南下",
-      "summary": "宜蘭礁溪台9線南下，濃霧視線不良，請開啟霧燈慢行",
+      "summary": "宜蘭礁溪台9線南下濃霧視線不良，請開啟霧燈慢行",
       "severity": "unknown",
       "location_text": "宜蘭 台9線 南下",
       "bbox": {
@@ -117,6 +186,8 @@
         "max_lat": 24.7421,
         "max_lng": 121.7778
       },
+      "original_bbox": null,
+      "bbox_source": "gazetteer",
       "center": {
         "lat": 24.7021,
         "lng": 121.7378
@@ -124,10 +195,17 @@
       "road": "台9線",
       "direction": "南下",
       "kilometer": null,
+      "kilometer_end": null,
+      "span_km": null,
       "city": "宜蘭",
       "confidence": 0.55,
-      "raw_text": "宜蘭礁溪台9線南下，濃霧視線不良，請開啟霧燈慢行",
-      "source": "police_radio"
+      "raw_text": "宜蘭礁溪台9線南下濃霧視線不良，請開啟霧燈慢行",
+      "source": "pbs_opendata",
+      "uid": "E20260928005",
+      "region": "E",
+      "area_nm": "宜蘭礁溪",
+      "roadtype": "災變",
+      "api_center": null
     }
   ]
 }

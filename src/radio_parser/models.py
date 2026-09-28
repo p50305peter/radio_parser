@@ -56,11 +56,15 @@ class ExtractedMention(BaseModel):
     direction: str | None = None
     road: str | None = None
     kilometer: float | None = None
+    kilometer_end: float | None = None
+    span_km: float | None = None
     city: str | None = None
     landmark: str | None = None
+    landmark_end: str | None = None
     severity: Severity = Severity.UNKNOWN
     confidence: float = Field(default=0.5, ge=0.0, le=1.0)
     raw_span: str | None = None
+    prefer_comment_over_api: bool = True
 
 
 class Incident(BaseModel):
@@ -71,14 +75,23 @@ class Incident(BaseModel):
     severity: Severity = Severity.UNKNOWN
     location_text: str
     bbox: BoundingBox
+    original_bbox: BoundingBox | None = None
+    bbox_source: str = "gazetteer"
     center: dict[str, float]
     road: str | None = None
     direction: str | None = None
     kilometer: float | None = None
+    kilometer_end: float | None = None
+    span_km: float | None = None
     city: str | None = None
     confidence: float = 0.5
     raw_text: str | None = None
     source: str = "police_radio"
+    uid: str | None = None
+    region: str | None = None
+    area_nm: str | None = None
+    roadtype: str | None = None
+    api_center: dict[str, float] | None = None
 
 
 class IncidentReport(BaseModel):
@@ -88,6 +101,7 @@ class IncidentReport(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
     transcript_path: str | None = None
+    pbs_url: str | None = None
     incidents: list[Incident] = Field(default_factory=list)
 
     def to_geojson(self) -> dict[str, Any]:

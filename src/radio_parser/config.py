@@ -30,6 +30,10 @@ class Settings:
     geocoder_provider: str
     output_dir: Path
     default_bbox_half_deg: float
+    pbs_api_url: str = (
+        "https://rtr.pbs.gov.tw/NMP103_PbsWS/resources/roadData/opendata"
+    )
+    pbs_timeout_sec: float = 30.0
 
     @property
     def openai_enabled(self) -> bool:
@@ -49,6 +53,11 @@ class Settings:
             geocoder_provider=os.getenv("GEOCODER_PROVIDER", "local").strip() or "local",
             output_dir=output_path,
             default_bbox_half_deg=float(os.getenv("DEFAULT_BBOX_HALF_DEG", "0.008")),
+            pbs_api_url=os.getenv(
+                "PBS_API_URL",
+                "https://rtr.pbs.gov.tw/NMP103_PbsWS/resources/roadData/opendata",
+            ).strip(),
+            pbs_timeout_sec=float(os.getenv("PBS_TIMEOUT_SEC", "30")),
         )
 
 

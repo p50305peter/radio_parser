@@ -53,7 +53,7 @@
   <body>
     <div class="panel">
       <h1>警廣路況地圖</h1>
-      <p>讀取方形區塊 JSON，把事故 / 塞車畫在地圖上。</p>
+      <p>實線是 comment 重調後的區塊；虛線是 API 原始 x1/y1。</p>
       <label>
         JSON 路徑
         <input id="json-url" value="./incidents.json" size="28" />
@@ -107,9 +107,25 @@
           );
           rect.bindPopup(
             `<strong>${item.title}</strong><br/>${item.summary}<br/>` +
-              `<small>${item.location_text}</small>`
+              `<small>${item.location_text}</small><br/>` +
+              `<small>區塊：${item.bbox_source || ""}</small>`
           );
           rect.addTo(layer);
+          if (item.original_bbox) {
+            const old = item.original_bbox;
+            L.rectangle(
+              [
+                [old.min_lat, old.min_lng],
+                [old.max_lat, old.max_lng],
+              ],
+              {
+                color,
+                weight: 1,
+                dashArray: "6 4",
+                fillOpacity: 0.05,
+              }
+            ).addTo(layer);
+          }
           bounds.push([box.min_lat, box.min_lng], [box.max_lat, box.max_lng]);
         }
         if (bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
