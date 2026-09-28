@@ -1,0 +1,255 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "0edfea5b2030",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              121.51493,
+              25.06823
+            ],
+            [
+              121.53093,
+              25.06823
+            ],
+            [
+              121.53093,
+              25.08423
+            ],
+            [
+              121.51493,
+              25.08423
+            ],
+            [
+              121.51493,
+              25.06823
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "0edfea5b2030",
+        "type": "accident",
+        "title": "交通事故｜台北 國道一號 南下 25.3k 台北交流道",
+        "summary": "國道一號南下二十五點三公里，台北交流道附近，兩輛小客車追撞，內線車道占用，後方回堵大約三公里",
+        "severity": "medium",
+        "location_text": "台北 國道一號 南下 25.3k 台北交流道",
+        "center": {
+          "lat": 25.07623,
+          "lng": 121.52293
+        },
+        "road": "國道1號",
+        "direction": "南下",
+        "kilometer": 25.3,
+        "city": "台北",
+        "confidence": 0.55,
+        "raw_text": "國道一號南下二十五點三公里，台北交流道附近，兩輛小客車追撞，內線車道占用，後方回堵大約三公里",
+        "source": "police_radio"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "d6461dcac602",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              121.568,
+              24.98
+            ],
+            [
+              121.584,
+              24.98
+            ],
+            [
+              121.584,
+              24.996
+            ],
+            [
+              121.568,
+              24.996
+            ],
+            [
+              121.568,
+              24.98
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "d6461dcac602",
+        "type": "congestion",
+        "title": "塞車/回堵｜國道三號 北上 木柵",
+        "summary": "國道三號北上木柵到新店路段，車多行駛緩慢",
+        "severity": "low",
+        "location_text": "國道三號 北上 木柵",
+        "center": {
+          "lat": 24.988,
+          "lng": 121.576
+        },
+        "road": "國道3號",
+        "direction": "北上",
+        "kilometer": null,
+        "city": null,
+        "confidence": 0.55,
+        "raw_text": "國道三號北上木柵到新店路段，車多行駛緩慢",
+        "source": "police_radio"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7329d237db33",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              121.431,
+              25.069
+            ],
+            [
+              121.447,
+              25.069
+            ],
+            [
+              121.447,
+              25.085
+            ],
+            [
+              121.431,
+              25.085
+            ],
+            [
+              121.431,
+              25.069
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "7329d237db33",
+        "type": "breakdown",
+        "title": "車輛拋錨｜台64線 西向 五股",
+        "summary": "台64線西向五股往林口方向，大貨車拋錨占用路肩",
+        "severity": "medium",
+        "location_text": "台64線 西向 五股",
+        "center": {
+          "lat": 25.077,
+          "lng": 121.439
+        },
+        "road": "台64線",
+        "direction": "西向",
+        "kilometer": null,
+        "city": null,
+        "confidence": 0.55,
+        "raw_text": "台64線西向五股往林口方向，大貨車拋錨占用路肩",
+        "source": "police_radio"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "284a474deced",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              120.315,
+              22.648
+            ],
+            [
+              120.331,
+              22.648
+            ],
+            [
+              120.331,
+              22.664
+            ],
+            [
+              120.315,
+              22.664
+            ],
+            [
+              120.315,
+              22.648
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "284a474deced",
+        "type": "construction",
+        "title": "施工｜高雄 南下 鼎金",
+        "summary": "高雄鼎金系統南下匝道，施工封閉，請改走平面道路",
+        "severity": "high",
+        "location_text": "高雄 南下 鼎金",
+        "center": {
+          "lat": 22.656,
+          "lng": 120.323
+        },
+        "road": null,
+        "direction": "南下",
+        "kilometer": null,
+        "city": "高雄",
+        "confidence": 0.55,
+        "raw_text": "高雄鼎金系統南下匝道，施工封閉，請改走平面道路",
+        "source": "police_radio"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cfdd41e05722",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              121.6978,
+              24.6621
+            ],
+            [
+              121.7778,
+              24.6621
+            ],
+            [
+              121.7778,
+              24.7421
+            ],
+            [
+              121.6978,
+              24.7421
+            ],
+            [
+              121.6978,
+              24.6621
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "cfdd41e05722",
+        "type": "weather",
+        "title": "天候路況｜宜蘭 台9線 南下",
+        "summary": "宜蘭礁溪台9線南下，濃霧視線不良，請開啟霧燈慢行",
+        "severity": "unknown",
+        "location_text": "宜蘭 台9線 南下",
+        "center": {
+          "lat": 24.7021,
+          "lng": 121.7378
+        },
+        "road": "台9線",
+        "direction": "南下",
+        "kilometer": null,
+        "city": "宜蘭",
+        "confidence": 0.55,
+        "raw_text": "宜蘭礁溪台9線南下，濃霧視線不良，請開啟霧燈慢行",
+        "source": "police_radio"
+      }
+    }
+  ]
+}
