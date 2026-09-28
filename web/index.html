@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>警廣路況地圖</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+      #map {
+        height: 100%;
+      }
+      .panel {
+        position: absolute;
+        z-index: 1000;
+        top: 12px;
+        left: 12px;
+        max-width: 360px;
+        background: color-mix(in srgb, canvas 92%, transparent);
+        padding: 12px 14px;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+      }
+      .panel h1 {
+        font-size: 16px;
+        margin: 0 0 6px;
+      }
+      .panel p,
+      .panel label {
+        font-size: 13px;
+        margin: 0 0 8px;
+        line-height: 1.4;
+      }
+      .legend span {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>警廣路況地圖</h1>
+      <p>實線是 comment 重調後的區塊；虛線是 API 原始 x1/y1。</p>
+      <label>
+        JSON 路徑
+        <input id="json-url" value="./incidents.json" size="28" />
+      </label>
+      <button id="reload" type="button">重新載入</button>
+      <p id="status"></p>
+      <p class="legend">
+        <span style="background:#c0392b"></span>事故
+        <span style="background:#e67e22"></span>塞車
+        <span style="background:#8e44ad"></span>拋錨
+        <span style="background:#2980b9"></span>施工
+        <span style="background:#16a085"></span>天候
+      </p>
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      const COLORS = {
+        accident: "#c0392b",
+        congestion: "#e67e22",
+        breakdown: "#8e44ad",
+        construction: "#2980b9",
+        weather: "#16a085",
+        other: "#7f8c8d",
+      };
+      const map = L.map("map").setView([23.7, 121.0], 8);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap",
+      }).addTo(map);
+      let layer = L.layerGroup().addTo(map);
+
+      async function loadJson(url) {
+        const status = document.getElementById("status");
+        status.textContent = "載入中…";
+        layer.clearLayers();
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(res.status + " " + res.statusText);
+        const data = await res.json();
+        const incidents = data.incidents || [];
+        const bounds = [];
+        for (const item of incidents) {
+          const box = item.bbox;
+          const color = COLORS[item.type] || COLORS.other;
+          const rect = L.rectangle(
+            [
+              [box.min_lat, box.min_lng],
+              [box.max_lat, box.max_lng],
+            ],
+            { color, weight: 2, fillOpacity: 0.25 }
+          );
+          rect.bindPopup(
+            `<strong>${item.title}</strong><br/>${item.summary}<br/>` +
+              `<small>${item.location_text}</small><br/>` +
+              `<small>區塊：${item.bbox_source || ""}</small>`
+          );
+          rect.addTo(layer);
+          if (item.original_bbox) {
+            const old = item.original_bbox;
+            L.rectangle(
+              [
+                [old.min_lat, old.min_lng],
+                [old.max_lat, old.max_lng],
+              ],
+              {
+                color,
+                weight: 1,
+                dashArray: "6 4",
+                fillOpacity: 0.05,
+                interactive: false,
+              }
+            ).addTo(layer);
+          }
+          bounds.push([box.min_lat, box.min_lng], [box.max_lat, box.max_lng]);
+        }
+        if (bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
+        status.textContent = `已載入 ${incidents.length} 筆（${data.parser || ""}）`;
+      }
+
+      document.getElementById("reload").onclick = () => {
+        const url = document.getElementById("json-url").value;
+        loadJson(url).catch((err) => {
+          document.getElementById("status").textContent = "載入失敗：" + err.message;
+        });
+      };
+      document.getElementById("reload").click();
+    </script>
+  </body>
+</html>
