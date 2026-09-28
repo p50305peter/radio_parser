@@ -98,6 +98,9 @@
         for (const item of incidents) {
           const box = item.bbox;
           const color = COLORS[item.type] || COLORS.other;
+          const html =
+            `<strong>${item.title}</strong><br/>${item.summary}<br/>` +
+            `<small>${item.location_text}</small>`;
           const rect = L.rectangle(
             [
               [box.min_lat, box.min_lng],
@@ -105,11 +108,19 @@
             ],
             { color, weight: 2, fillOpacity: 0.25 }
           );
-          rect.bindPopup(
-            `<strong>${item.title}</strong><br/>${item.summary}<br/>` +
-              `<small>${item.location_text}</small>`
-          );
+          rect.bindPopup(html);
           rect.addTo(layer);
+          const lat = (item.center && item.center.lat) || (box.min_lat + box.max_lat) / 2;
+          const lng = (item.center && item.center.lng) || (box.min_lng + box.max_lng) / 2;
+          L.circleMarker([lat, lng], {
+            radius: 8,
+            color,
+            fillColor: color,
+            fillOpacity: 0.9,
+            weight: 2,
+          })
+            .bindPopup(html)
+            .addTo(layer);
           bounds.push([box.min_lat, box.min_lng], [box.max_lat, box.max_lng]);
         }
         if (bounds.length) map.fitBounds(bounds, { padding: [24, 24] });
